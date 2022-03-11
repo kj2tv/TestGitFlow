@@ -1,0 +1,24 @@
+mode: Mainline
+merge-message-formats:
+  ghmerge: ^Merge pull request \#(?<PullRequestNumber>\d+) from Kobe\/(?<SourceBranch>.+)
+branches:
+  master:
+    regex: (^main$)
+    tag: ""
+    increment: Patch
+    is-release-branch: true
+  feature:
+    regex: ^feature?[/-]
+    tag: useBranchName
+    increment: Minor
+  bugfix:
+    regex: ^bugfix[/-]
+    tag: useBranchName
+    increment: Patch
+    source-branches: ["main"]
+  chore:
+    regex: ^chore[/-]
+    tag: useBranchName
+    increment: None
+    prevent-increment-of-merged-branch-version: true
+    source-branches: ["main"]
