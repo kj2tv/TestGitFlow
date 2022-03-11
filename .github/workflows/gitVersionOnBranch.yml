@@ -1,0 +1,43 @@
+# This is a basic workflow to help you get started with Actions
+
+name: gitVersionOnBranch
+
+# Controls when the workflow will run
+on: 
+  push:
+    branches:
+      #- main
+        #push on main
+      - 'release/**'
+      - 'feature/**'
+      - 'dev/**'
+      - 'hotfix/**'
+      - 'bug/**'
+        #push on feature branch with prefix release
+  
+  #merge on main or practically main push
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  calculate-version:
+    name: Calculate Version
+    runs-on: ubuntu-latest
+    outputs:
+      fullSemVer: ${{ steps.gitversion.outputs.fullSemVer }} # To use an output in another job, you have to map it to a job output.
+      branchName: ${{ steps.gitversion.outputs.branchName }} # To use an output in another job, you have to map it to a job output.
+    steps:
+      # gitversion/execute step omitted for brevity
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.7
+      - run: |
+            echo "Version: ${{ steps.gitversion.outputs.fullSemVer }}."
+            echo "BranchName: ${{ steps.gitversion.outputs.branchName }}."
+    
