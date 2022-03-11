@@ -6,7 +6,7 @@ branches:
     regex: (^main$)
     tag: ""
     increment: Patch
-    #casual edit 1 feature/foo
+    #casual edit 2 feature/foo
     is-release-branch: true
   feature:
     regex: ^feature?[/-]
